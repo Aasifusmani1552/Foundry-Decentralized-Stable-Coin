@@ -55,10 +55,7 @@ contract DecentralizedStableCoin is ERC20Burnable, Ownable {
         super.burn(_amount); //this super keyword access the function given to it from the parent contract or the first inherited contract
     }
 
-    function mint(
-        address _to,
-        uint256 _amount
-    ) external onlyOwner returns (bool) {
+    function mint(address _to, uint256 _amount) external onlyOwner returns (bool) {
         if (_to == address(0)) {
             revert DecentralizedStableCoin__NotZeroAddress();
         }
