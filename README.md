@@ -1,66 +1,45 @@
-## Foundry
+# Decentralized Stable Coin (DSC)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This project implements a **Decentralized Stable Coin (DSC)** system inspired by the principles of decentralized finance (DeFi). It features a 1:1 dollar-pegged stablecoin backed by exogenous collateral and stabilized algorithmically.
 
-Foundry consists of:
+## 🧾 Overview
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+The **Decentralized Stable Coin (DSC)** is designed to maintain price stability through a combination of:
+- **Exogenous Collateralization** – accepts external assets like WETH and WBTC as collateral
+- **Algorithmic Stability** – managed through a smart contract system called `DSCEngine`
+- **1:1 USD Peg** – the value of one DSC is intended to remain as close as possible to 1 USD
 
-## Documentation
+## ⚙️ How It Works
 
-https://book.getfoundry.sh/
+1. **Collateral Deposit**: Users deposit accepted collateral (WETH or WBTC) into the protocol.
+2. **Minting DSC**: Based on the deposited collateral, users can mint DSC up to a safe collateralization ratio.
+3. **Stability Mechanism**:
+   - The `DSCEngine` continuously monitors the **health factor** of all users.
+   - A health factor below `1` indicates an undercollateralized position.
+   - While the protocol itself **does not automatically liquidate**, **any external user** can call the `liquidate()` function on an undercollateralized position.
+   - The liquidator repays part of the debt and receives collateral at a **10% discount** as an incentive.
+4. **Redemption**: Users can burn DSC to retrieve their deposited collateral.
 
-## Usage
+## 🏦 Collateral Types
 
-### Build
+The protocol currently supports:
+- **WETH** (Wrapped Ether)
+- **WBTC** (Wrapped Bitcoin)
 
-```shell
-$ forge build
-```
+## 🛡️ Key Properties
 
-### Test
+- 🔗 **Decentralized**: No central authority governs the issuance or management.
+- 💵 **Stable**: Pegged 1:1 with the U.S. Dollar.
+- 🪙 **Overcollateralized**: Always backed by more value than the DSC minted.
+- 🤖 **Algorithmically Stabilized**: Stability logic is enforced through smart contracts (`DSCEngine`).
+- ⚖️ **Community-Driven Liquidation**: Bad debt is resolved by external actors incentivized with a liquidation bonus.
+- 🔒 **Secure & Transparent**: Built with smart contracts and verifiable on-chain.
 
-```shell
-$ forge test
-```
+## 🛠️ Contracts
 
-### Format
+- `DSC.sol`: The stablecoin contract implementing ERC20.
+- `DSCEngine.sol`: The core logic for collateral management, minting, redemption, and liquidations.
 
-```shell
-$ forge fmt
-```
+## 📄 License
 
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+This project is open-source and available under the MIT License.
